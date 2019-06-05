@@ -1,4 +1,6 @@
 defmodule PlotlyEx do
+  alias PlotlyEx.OneTimeServer
+
   def plot(data) do
     json_data = Jason.encode!(data)
     """
@@ -14,38 +16,44 @@ defmodule PlotlyEx do
     """
   end
 
-  def show(plot_html) do
-    filename = Path.join(tmp_dir(), "plot.html")
-    File.write(filename, """
-      <head>
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-      </head>
-
-      <body>
-        #{plot_html}
-        <button id="plotly-ex-save-button">Save as SVG</button>
-        <a id="plotly-ex-download-link" download="test2.svg" style="display:none;" />
-        <script>
-          document.getElementById("plotly-ex-save-button").onclick = () => {
-            let graph_body   = document.getElementById('plotly-ex-body')
-            let graph_width  = graph_body.clientWidth
-            let graph_height = graph_body.clientHeight
-            Plotly.toImage(graph_body, {format: 'svg', width: graph_width, height: graph_height})
-            .then((url) => {
-              let download_link = document.getElementById("plotly-ex-download-link")
-              download_link.href = url
-              download_link.click()
-            })
-          }
-        </script>
-      </body>
-    """)
-    open(filename)
+  def show(plot_html, opts \\ []) do
+    show_html = show_html(plot_html)
+    case Keyword.get(opts, :filename) do
+      nil ->
+        {port, socket} = OneTimeServer.start()
+        open("http://localhost:#{port}")
+        OneTimeServer.response(socket, show_html)
+      filename ->
+        File.write(filename, show_html)
+        open(filename)
+    end
   end
 
-  defp tmp_dir() do
-    {dir, 0} = System.cmd("mktemp", ["-d"])
-    String.trim(dir)
+  defp show_html(plot_html) do
+    """
+    <head>
+      <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    </head>
+
+    <body>
+      #{plot_html}
+      <button id="plotly-ex-save-button">Save as SVG</button>
+      <a id="plotly-ex-download-link" download="test2.svg" style="display:none;" />
+      <script>
+        document.getElementById("plotly-ex-save-button").onclick = () => {
+          let graph_body   = document.getElementById('plotly-ex-body')
+          let graph_width  = graph_body.clientWidth
+          let graph_height = graph_body.clientHeight
+          Plotly.toImage(graph_body, {format: 'svg', width: graph_width, height: graph_height})
+          .then((url) => {
+            let download_link = document.getElementById("plotly-ex-download-link")
+            download_link.href = url
+            download_link.click()
+          })
+        }
+      </script>
+    </body>
+    """
   end
 
   defp open(filename) do
