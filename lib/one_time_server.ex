@@ -2,6 +2,7 @@ defmodule PlotlyEx.OneTimeServer do
   def start() do
     {:ok, socket} = :gen_tcp.listen(0, active: false)
     {:ok, port  } = :inet.port(socket)
+    IO.puts(:stderr, "listening on http://localhost:#{port}")
     {port, socket}
   end
 
@@ -16,5 +17,6 @@ defmodule PlotlyEx.OneTimeServer do
     """)
     :gen_tcp.close(request)
     :gen_tcp.close(socket)
+    IO.puts(:stderr, "quitting...")
   end
 end
