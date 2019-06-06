@@ -57,14 +57,8 @@ defmodule PlotlyEx do
   end
 
   defp open(filename) do
-    open_impl(["open", "xdg-open"], filename)
-  end
-
-  defp open_impl([]          , filename), do: {:error, "opening #{filename} failed"}
-  defp open_impl([cmd | rest], filename) do
-    case System.cmd(cmd, [filename], stderr_to_stdout: true) do
-      {_, 0} -> :ok
-      _      -> open_impl(rest, filename)
-    end
+    "open #{filename} || xdg-open #{filename}"
+    |> to_charlist()
+    |> :os.cmd()
   end
 end
