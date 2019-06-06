@@ -1,6 +1,6 @@
 defmodule PlotlyEx.OneTimeServer do
   def start() do
-    {:ok, socket} = :gen_tcp.listen(0, active: false)
+    {:ok, socket} = :gen_tcp.listen(0, [:binary, packet: :http_bin, active: false, reuseaddr: true])
     {:ok, port  } = :inet.port(socket)
     IO.puts(:stderr, "listening on http://localhost:#{port}")
     {port, socket}
