@@ -1,8 +1,9 @@
 defmodule PlotlyEx do
   alias PlotlyEx.OneTimeServer
 
-  def plot(data) do
-    json_data = Jason.encode!(data)
+  def plot(data, layout \\ %{}) do
+    json_data   = Jason.encode!(data)
+    json_layout = Jason.encode!(layout)
     """
     <div class="plotly-ex">
       <div id="plotly-ex-body"></div>
@@ -10,7 +11,8 @@ defmodule PlotlyEx do
         var d3 = Plotly.d3
         var img_svg = d3.select('#svg-export')
         var data = #{json_data}
-        Plotly.plot('plotly-ex-body', data)
+        var layout = #{json_layout}
+        Plotly.plot('plotly-ex-body', data, layout)
       </script>
     </div>
     """
