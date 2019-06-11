@@ -110,3 +110,17 @@ Temporary files become unnecessary by doing so.
 
 `PlotlyEx.show/2` opens your browsers by using `open` or `xdg-open` command on your environment.
 If they don't exist, please manually open `http://localhost:<port>` in your browser.
+
+## If you want to use Plotly.ex in Phoenix
+Add Plotly.ex as a dependency in `mix.exs`.
+Then you can plot as
+```elixir
+<%= PlotlyEx.plot([%{type: "scatter", x: [1, 2], y: [3, 4]}]) |> raw() %>
+```
+in your template engine.
+(Please note that `raw/1` is needed.)
+
+Also, you should include plotly.js in your HTML header.
+```html
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+```
