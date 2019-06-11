@@ -1,10 +1,13 @@
 defmodule PlotlyEx do
   alias PlotlyEx.OneTimeServer
 
+  @root_path File.cwd!()
+
   def plot(data, layout \\ %{}) do
     json_data   = Jason.encode!(data)
     json_layout = Jason.encode!(layout)
-    EEx.eval_file("templates/plot_region.html.eex", data: json_data, layout: json_layout)
+    filepath    = Path.join([@root_path, "templates", "plot_region.html.eex"])
+    EEx.eval_file(filepath, data: json_data, layout: json_layout)
   end
 
   def show(plot_html, opts \\ []) do
@@ -21,7 +24,8 @@ defmodule PlotlyEx do
   end
 
   defp show_html(plot_body) do
-    EEx.eval_file("templates/show_page.html.eex", plot_body: plot_body)
+    filepath = Path.join([@root_path, "templates", "show_page.html.eex"])
+    EEx.eval_file(filepath, plot_body: plot_body)
   end
 
   defp open(filename) do
