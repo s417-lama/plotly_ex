@@ -1,6 +1,6 @@
 <div class="plotly-ex">
-  <div id="plotly-ex-body"></div>
+  <div id="plotly-ex-body-<%= id %>"></div>
   <script>
-    Plotly.plot('plotly-ex-body', <%= data %>, <%= layout %>)
+    Plotly.plot('plotly-ex-body-<%= id %>', <%= data %>, <%= layout %>)
   </script>
 </div>

@@ -9,7 +9,7 @@
     <a id="plotly-ex-download-link" download="test2.svg" style="display:none;" />
     <script>
       document.getElementById("plotly-ex-save-button").onclick = () => {
-        let graph_body   = document.getElementById('plotly-ex-body')
+        let graph_body   = document.querySelector('[id^="plotly-ex-body-"]')
         let graph_width  = graph_body.clientWidth
         let graph_height = graph_body.clientHeight
         Plotly.toImage(graph_body, {format: 'svg', width: graph_width, height: graph_height})

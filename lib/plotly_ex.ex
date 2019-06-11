@@ -4,10 +4,11 @@ defmodule PlotlyEx do
   @root_path File.cwd!()
 
   def plot(data, layout \\ %{}) do
+    filepath    = Path.join([@root_path, "templates", "plot_region.html.eex"])
     json_data   = Jason.encode!(data)
     json_layout = Jason.encode!(layout)
-    filepath    = Path.join([@root_path, "templates", "plot_region.html.eex"])
-    EEx.eval_file(filepath, data: json_data, layout: json_layout)
+    unique_id   = :erlang.unique_integer([:positive])
+    EEx.eval_file(filepath, data: json_data, layout: json_layout, id: unique_id)
   end
 
   def show(plot_html, opts \\ []) do
