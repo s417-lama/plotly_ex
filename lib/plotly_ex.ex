@@ -22,6 +22,7 @@ defmodule PlotlyEx do
         File.write(filename, show_html)
         open(filename)
     end
+    :ok
   end
 
   defp show_html(plot_body) do
