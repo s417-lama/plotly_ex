@@ -11,6 +11,7 @@ defmodule PlotlyEx.OneTimeServer do
   def response(socket, html) do
     case :gen_tcp.accept(socket, @timeout) do
       {:ok, request} ->
+        {:ok, _} = :gen_tcp.recv(request, 0)
         :gen_tcp.send(request, """
         HTTP/1.1 200
         Content-Type: text/html
