@@ -24,6 +24,11 @@ trace2 = %{
 
 By running this code, the graph below will be shown in your browser.
 
+You can try it by running the code below.
+```sh
+mix run examples/basic_line_plot.exs
+```
+
 Note:
 You cannot run the above elixir script by `elixir` command because Plotly.ex is not included in standard libraries.
 To run Elixir scripts with Mix dependencies, use [s417-lama/erun](https://github.com/s417-lama/erun).
