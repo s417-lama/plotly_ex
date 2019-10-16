@@ -12,7 +12,12 @@ defmodule PlotlyEx do
   end
 
   def show(plot_html, opts \\ []) do
-    show_html = show_html(plot_html)
+    plotly_js_url =
+      case Keyword.get(opts, :plotly_js_url) do
+        nil -> "https://cdn.plot.ly/plotly-latest.min.js"
+        url -> url
+      end
+    show_html = show_html(plot_html, plotly_js_url)
     case Keyword.get(opts, :filename) do
       nil ->
         {port, socket} = OneTimeServer.start()
@@ -25,9 +30,9 @@ defmodule PlotlyEx do
     :ok
   end
 
-  defp show_html(plot_body) do
+  defp show_html(plot_body, plotly_js_url) do
     filepath = Path.join([@root_path, "templates", "show_page.html.eex"])
-    EEx.eval_file(filepath, plot_body: plot_body)
+    EEx.eval_file(filepath, plot_body: plot_body, plotly_js_url: plotly_js_url)
   end
 
   defp open(filename) do
