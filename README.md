@@ -63,11 +63,11 @@ If you like Plotly.ex, please encourage me to publish it on hex:)
 ## API
 Currently, Plotly.ex provides only 2 APIs.
 
-### `PlotlyEx.plot(data, layout \\ %{})`
-Receives `data` and `layout` objects (map) and returns an HTML string.
-`data` and `layout` are converted to json and passed to `Plotly.plot` function in javascript.
+### `PlotlyEx.plot(data, layout \\ %{}, config \\ %{})`
+Receives `data`, `layout`, and `config` objects (map) and returns an HTML string.
+These objects are converted to json and passed to `Plotly.plot` function in javascript.
 
-See [documents of Plotly.js](https://plot.ly/javascript/) to see how to set `data` and `layout`.
+See [documents of Plotly.js](https://plot.ly/javascript/) to see how to set `data`, `layout`, and `config`.
 
 example:
 ```elixir
@@ -75,7 +75,7 @@ iex> PlotlyEx.plot([%{type: "scatter", x: [1, 2], y: [3, 4]}]) |> IO.puts
 <div class="plotly-ex">
   <div id="plotly-ex-body-771"></div>
   <script>
-    Plotly.plot('plotly-ex-body-771', [{"type":"scatter","x":[1,2],"y":[3,4]}], {})
+    Plotly.plot('plotly-ex-body-771', [{"type":"scatter","x":[1,2],"y":[3,4]}], {}, {})
   </script>
 </div>
 ```
