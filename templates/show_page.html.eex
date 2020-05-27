@@ -1,6 +1,7 @@
 <html>
   <head>
     <script src="<%= plotly_js_url %>"></script>
+    <script src="<%= mathjax_js_url %>"></script>
   </head>
 
   <body>

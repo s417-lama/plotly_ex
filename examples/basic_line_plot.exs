@@ -10,5 +10,9 @@ trace2 = %{
 }
 
 [trace1, trace2]
-|> PlotlyEx.plot
+|> PlotlyEx.plot(%{
+  xaxis: %{
+    title: %{text: "$\\text{Value}\\;(\\times 10^7)$"},
+  },
+})
 |> PlotlyEx.show
